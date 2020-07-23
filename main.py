@@ -11,4 +11,4 @@ import json
 with open("intend.json") as file:
     data = json.load(file)
 
-print(data)
+print(data['intents'])
