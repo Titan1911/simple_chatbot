@@ -15,12 +15,12 @@
          "context_set": ""
         },
         {"tag": "name",
-         "patterns": ["what is your name", "what should I call you", "whats your name?"],
+         "patterns": ["what is your name", "what should I call you", "whats your name?","Who are you?"],
          "responses": ["You can call me Titan.", "I'm Titan!", "I'm Titan aka Sahil."],
          "context_set": ""
         },
         {"tag": "shop",
-         "patterns": ["Id like to buy something", "whats on the menu", "what do you recommend?", "could i get something to eat","menu","Hungry, can I get something"],
+         "patterns": ["Id like to buy something", "whats on the menu", "could i get something to eat","menu","Hungry, can I get something","what do you sell?"],
          "responses": ["We sell chole bhature for just Rs.40 :)!", "Chole bhature on the menu!"],
          "context_set": ""
         },

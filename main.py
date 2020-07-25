@@ -29,7 +29,7 @@ for intent in data['intents']:
     if intent['tag'] not in labels:
         labels.append(intent['tag'])
 
-    # stemming-will take a word and bring it down to the root word. Eg. whats up will be brought down to the root word what
+        # stemming-will take a word and bring it down to the root word. Eg. whats up will be brought down to the root word what
 words = [stemmer.stem(w.lower()) for w in words if w not in '?']
 words = sorted(list(set(words))) #purpose of set()- to remove any duplicates
 
@@ -61,7 +61,6 @@ for x, doc in enumerate(docs_x):
 training = numpy.array(training)
 output = numpy.array(output)
 
-
 tf.reset_default_graph() #reset any previous data stored
 
 #this tf and tflearn code is a little complicated, refer tutorials for future refference
@@ -72,9 +71,11 @@ net = tflearn.fully_connected(net,len(output[0]),activation="softmax")
 net = tflearn.regression(net)
 
 model = tflearn.DNN(net)
-
-model.fit(training, output, n_epoch=1000, batch_size=8, show_metric=True)
-model.save("model.tflearn")
+try:
+    model.load("model.tflearn")
+except:
+    model.fit(training, output, n_epoch=1000, batch_size=8, show_metric=True)
+    model.save("model.tflearn")
 
 # working with input from the user
 def bag_of_words(s, words):
