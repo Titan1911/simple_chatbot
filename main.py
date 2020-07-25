@@ -9,65 +9,62 @@ import tensorflow as tf
 import json
 import pickle
 
-with open("intent.json") as file:
+with open("basic.json") as file:
     data = json.load(file)
 
 # print(data['intents'][0]['patterns'])
-try:
-    with open('data.pickle','rb') as f:
-        words, labels, training, output = pickle.load(f)
-except:
-    words = []
-    labels = []
-    docs_x = []
-    docs_y = []
 
-    for intent in data['intents']:
-        for pattern in intent['patterns']:
-            wrds = nltk.word_tokenize(pattern)   #tokenize- getting the words written by splitting every word from the sentence or phrase. directly done by nltk, adds to a list
-            words.extend(wrds) #add up all the words in the 'words' list
-            docs_x.append(wrds)
-            docs_y.append(intent['tag'])
+words = []
+labels = []
+docs_x = []
+docs_y = []
 
-        if intent['tag'] not in labels:
-            labels.append(intent['tag'])
+for intent in data['intents']:
+    for pattern in intent['patterns']:
+        wrds = nltk.word_tokenize(pattern)   #tokenize- getting the words written by splitting every word from the sentence or phrase. directly done by nltk, adds to a list
+        words.extend(wrds) #add up all the words in the 'words' list
+        docs_x.append(wrds)
+        docs_y.append(intent['tag'])
+
+    if intent['tag'] not in labels:
+        labels.append(intent['tag'])
 
     # stemming-will take a word and bring it down to the root word. Eg. whats up will be brought down to the root word what
-    words = [stemmer.stem(w.lower()) for w in words if w not in '?']
-    words = sorted(list(set(words))) #purpose of set()- to remove any duplicates
+words = [stemmer.stem(w.lower()) for w in words if w not in '?']
+words = sorted(list(set(words))) #purpose of set()- to remove any duplicates
 
-    labels = sorted(labels)
+labels = sorted(labels)
 
-    training = []
-    output = []
+training = []
+output = []
 
-    out_empty = [0 for _ in range(len(labels))]
+out_empty = [0 for _ in range(len(labels))]
 
-    for x, doc in enumerate(docs_x):
-        bag = []
+for x, doc in enumerate(docs_x):
+    bag = []
 
-        wrds = [stemmer.stem(w) for w in doc]
-        for w in words:
-            if w in words:
-                bag.append(1)
+    wrds = [stemmer.stem(w) for w in doc]
 
-            else:
-                bag.append(0)
+    for w in words:
+        if w in wrds:
+            bag.append(1)
 
-        output_row = out_empty[:]
-        output_row[labels.index(docs_y[x])] = 1
+        else:
+            bag.append(0)
 
-        training.append(bag)
-        output.append(output_row)
+    output_row = out_empty[:]
+    output_row[labels.index(docs_y[x])] = 1
 
-    training = numpy.array(training)
-    output = numpy.array(output)
+    training.append(bag)
+    output.append(output_row)
 
-    with open('data.pickle','wb') as f:
-        pickle.dump((words, labels, training, output),f)
+training = numpy.array(training)
+output = numpy.array(output)
 
-tf.reset_default_graph()
 
+tf.reset_default_graph() #reset any previous data stored
+
+#this tf and tflearn code is a little complicated, refer tutorials for future refference
 net = tflearn.input_data(shape=[None, len(training[0])])
 net = tflearn.fully_connected(net,8)
 net = tflearn.fully_connected(net,8)
@@ -75,11 +72,9 @@ net = tflearn.fully_connected(net,len(output[0]),activation="softmax")
 net = tflearn.regression(net)
 
 model = tflearn.DNN(net)
-try:
-    model.load("model.tflearn")
-except:
-    model.fit(training, output, n_epoch=1000, batch_size=8, show_metric=True)
-    model.save("model.tflearn")
+
+model.fit(training, output, n_epoch=1000, batch_size=8, show_metric=True)
+model.save("model.tflearn")
 
 # working with input from the user
 def bag_of_words(s, words):
@@ -102,8 +97,16 @@ def chat():
         if inp.lower() == 'quit':
             break
 
-        results = model.predict([bag_of_words(inp, words)])
+        results = model.predict([bag_of_words(inp, words)])[0] #getting the user input and predicts the tag which has the highest probability
         results_index = numpy.argmax(results)
-        print(results_index)
+        tag = labels[results_index]
+
+        if results[results_index] > 0.7:
+            for tg in data["intents"]:
+                if tg['tag'] == tag:
+                    responses = tg['responses']
+            print(random.choice(responses)) #choice() -returns a random item from the list
+        else:
+            print("I didn't get that, try again")
 
 chat()

@@ -1,0 +1,33 @@
+{"intents": [
+        {"tag": "greeting",
+         "patterns": ["Hi", "How are you", "Hey yaa!", "Hello", "Anyone here?"],
+         "responses": ["Hi","Hey!","Hello","What's up"],
+         "context_set": ""
+        },
+        {"tag": "goodbye",
+         "patterns": ["See yaa!", "Goodbye", "I am Leaving", "bye!", "Ok", "Thanks for the help!"],
+         "responses": ["Ok! Nice to assist you today!", "Goodbye!","Bye! Have a nice day :)"],
+         "context_set": ""
+        },
+        {"tag": "age",
+         "patterns": ["how old are you?", "what is your age", "how old are you", "age?"],
+         "responses": ["I am 18 years old!", "18 years young!", "18, young gun!"],
+         "context_set": ""
+        },
+        {"tag": "name",
+         "patterns": ["what is your name", "what should I call you", "whats your name?"],
+         "responses": ["You can call me Titan.", "I'm Titan!", "I'm Titan aka Sahil."],
+         "context_set": ""
+        },
+        {"tag": "shop",
+         "patterns": ["Id like to buy something", "whats on the menu", "what do you recommend?", "could i get something to eat","menu","Hungry, can I get something"],
+         "responses": ["We sell chole bhature for just Rs.40 :)!", "Chole bhature on the menu!"],
+         "context_set": ""
+        },
+        {"tag": "hours",
+         "patterns": ["when are you guys open", "what are your hours", "hours of operation","what are your working hours?","Time u available","Timing"],
+         "responses": ["We are open 7am-4pm Monday-Friday!"],
+         "context_set": ""
+        }
+   ]
+}
