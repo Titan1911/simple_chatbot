@@ -8,8 +8,9 @@ import random
 import tensorflow as tf
 import json
 import pickle
+import webbrowser
 
-with open("basic.json") as file:
+with open("corona.json") as file:
     data = json.load(file)
 
 # print(data['intents'][0]['patterns'])
@@ -71,11 +72,9 @@ net = tflearn.fully_connected(net,len(output[0]),activation="softmax")
 net = tflearn.regression(net)
 
 model = tflearn.DNN(net)
-try:
-    model.load("model.tflearn")
-except:
-    model.fit(training, output, n_epoch=1000, batch_size=8, show_metric=True)
-    model.save("model.tflearn")
+
+model.fit(training, output, n_epoch=1000, batch_size=8, show_metric=True)
+model.save("model.tflearn")
 
 # working with input from the user
 def bag_of_words(s, words):
@@ -92,10 +91,12 @@ def bag_of_words(s, words):
     return numpy.array(bag)
 
 def chat():
-    print("Start talking with the bot (type quit to stop)!")
+    print("This is your Corona chatbot, you can ask me anything related to COVID 19!")
+    print("I will take you to the site related to your question.")
+    print("Press 'q' to quit")
     while True:
         inp = input('You: ')
-        if inp.lower() == 'quit':
+        if inp.lower() == 'q':
             break
 
         results = model.predict([bag_of_words(inp, words)])[0] #getting the user input and predicts the tag which has the highest probability
@@ -106,7 +107,7 @@ def chat():
             for tg in data["intents"]:
                 if tg['tag'] == tag:
                     responses = tg['responses']
-            print(random.choice(responses)) #choice() -returns a random item from the list
+            webbrowser.open(responses) #choice() -returns a random item from the list
         else:
             print("I didn't get that, try again")
 

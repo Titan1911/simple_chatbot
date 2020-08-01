@@ -1,0 +1,40 @@
+{"intents": [
+
+         {"tag": "overview",
+         "patterns": ["what is corona virus?", "overview", "introduction"],
+         "responses": "https://www.who.int/health-topics/coronavirus#tab=tab_1",
+         "context_set": ""
+        },
+        {"tag": "symptoms",
+         "patterns": ["what are its symptoms?", "how can I know that I have corona virus?", "Does sneezing and coughing means corona?"],
+         "responses": "https://www.who.int/health-topics/coronavirus#tab=tab_3",
+         "context_set": ""
+        },
+        {"tag": "prevention",
+         "patterns": ["what are it's preventions?", "how to be safe?","preventions"],
+         "responses": "https://www.who.int/emergencies/diseases/novel-coronavirus-2019/advice-for-public",
+         "context_set": ""
+        },
+        {"tag": "trends",
+         "patterns": ["what is the current situation?", "what are the trends?", "distribution of corona world wide","which country is affected the most?"],
+         "responses": "https://covid19.who.int/?gclid=Cj0KCQjwvIT5BRCqARIsAAwwD-R5Xrg-jdKiY9cy6Xi4pY7P4Af7PJLmqnrwfbqTwP1G_I4TWRfOXNgaAhhlEALw_wcB",
+         "context_set": ""
+        },
+         {"tag": "trends in India",
+         "patterns": ["what is the current situation in India?", "what are the trends in India?", "distribution of corona in India","which state is most affected?"],
+         "responses": "https://www.ndtv.com/coronavirus/fullcoverage",
+         "context_set": ""
+        },
+        {"tag": "vaccine",
+         "patterns": ["what about the vaccine", "When would the vaccine be ready?", "what is the progress made in the vaccine","which country is making the vaccine","vaccine tracker"],
+         "responses": "https://www.raps.org/news-and-articles/news-articles/2020/3/covid-19-vaccine-tracker",
+         "context_set": ""
+        },
+         {"tag": "more details",
+         "patterns": ["Where can I get more details?", "what about research process?","where can I get more information"],
+         "responses": "https://www.who.int/",
+         "context_set": ""
+        }
+
+]
+}
